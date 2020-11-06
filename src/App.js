@@ -1,25 +1,15 @@
-import { useEffect, useState } from 'react';
+import { Fragment } from 'react';
+import useDataApi from './services';
 
 const FetchGithub = () => {
-  const [data, setData] = useState({
-    name: '',
-    location: ''
-  })
+  const { data, loading } = useDataApi(`users/workshopsjsmvd`)
 
-  useEffect(() => {
-    fetch('https://api.github.com/users/workshopsjsmvd')
-      .then(res => res.json()).then(res => {
-        setData({
-          name: res.name,
-          location: res.location
-        })
-      });
-  }, [])
+  if (loading) return <h2 key="name">Cargando datos...</h2>
 
-  return [
-    <h1 key="name">{`Nombre: ${data.name}`}</h1>,
-    <h2 key="location">{`País: ${data.location}`}</h2>
-  ];
+  return <Fragment>
+    <h1 key="name">{`Nombre: ${data?.name}`}</h1>,
+    <h2 key="location">{`País: ${data?.location}`}</h2>
+  </Fragment>;
 
 };
 
